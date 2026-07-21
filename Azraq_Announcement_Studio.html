@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Azraq Announcement Studio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #060D14; color: #E8F0F8; font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+.topbar { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: #001528;
+  border-bottom: 1px solid rgba(17,122,202,0.25); }
+.topbar svg { width: 26px; height: 24px; }
+.topbar .t { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; }
+.topbar .t span { color: #117ACA; }
+.topbar .sub { margin-left: auto; font-size: 12.5px; color: #6E8DA8; letter-spacing: 1.5px; font-weight: 600; }
+
+.wrap { display: flex; gap: 0; align-items: stretch; height: calc(100vh - 57px); }
+
+/* sidebar */
+.side { width: 380px; min-width: 380px; overflow-y: auto; background: #0B1622; padding: 20px 22px 40px;
+  border-right: 1px solid rgba(17,122,202,0.18); }
+.sec { margin-bottom: 22px; }
+.sec h2 { font-size: 11.5px; letter-spacing: 2.6px; font-weight: 700; color: #3FA0E8; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px; }
+.sec h2::after { content: ""; flex: 1; height: 1px; background: rgba(17,122,202,0.25); }
+label { display: block; font-size: 12px; font-weight: 600; color: #8FA6BC; margin: 10px 0 4px; }
+input[type=text], textarea { width: 100%; background: #001528; color: #E8F0F8; border: 1px solid rgba(17,122,202,0.35);
+  border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
+input[type=text]:focus, textarea:focus { border-color: #117ACA; }
+textarea { resize: vertical; min-height: 54px; line-height: 1.45; }
+.hint { font-size: 11px; color: #5E7A93; margin-top: 3px; line-height: 1.4; }
+.row { display: flex; gap: 10px; }
+.row > div { flex: 1; }
+
+.seg { display: flex; background: #001528; border: 1px solid rgba(17,122,202,0.35); border-radius: 8px; overflow: hidden; }
+.seg button { flex: 1; background: transparent; color: #8FA6BC; border: 0; padding: 8px 0; font-size: 12.5px;
+  font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+.seg button.on { background: #117ACA; color: #fff; }
+
+input[type=file] { display: none; }
+.filebtn { display: block; text-align: center; background: rgba(17,122,202,0.14); border: 1px dashed rgba(17,122,202,0.5);
+  color: #7CC4F8; border-radius: 8px; padding: 9px 0; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.filebtn:hover { background: rgba(17,122,202,0.22); }
+input[type=range] { width: 100%; accent-color: #117ACA; }
+
+.actions { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(11,22,34,0), #0B1622 26%);
+  padding-top: 16px; margin-top: 8px; }
+.btn { width: 100%; border: 0; border-radius: 10px; padding: 13px 0; font-size: 14.5px; font-weight: 700;
+  font-family: 'Inter', sans-serif; cursor: pointer; margin-bottom: 8px; }
+.btn.primary { background: #117ACA; color: #fff; }
+.btn.primary:hover { background: #2E95E3; }
+.btn.primary:disabled { background: #0A3D6B; color: #6E8DA8; cursor: default; }
+.btn.ghost { background: rgba(17,122,202,0.12); color: #7CC4F8; border: 1px solid rgba(17,122,202,0.4); }
+.prog { height: 6px; border-radius: 3px; background: #001528; overflow: hidden; margin-bottom: 8px; display: none; }
+.prog i { display: block; height: 100%; width: 0%; background: #117ACA; }
+.status { font-size: 11.5px; color: #6E8DA8; text-align: center; min-height: 16px; }
+
+/* preview */
+.stagewrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; background:
+  radial-gradient(ellipse at 50% 0%, #0A1B2C, #060D14 70%); overflow: hidden; }
+canvas.preview { box-shadow: 0 24px 80px rgba(0,0,0,0.6); border-radius: 6px; max-height: calc(100vh - 110px); max-width: 100%; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <svg viewBox="0 0 462.5 429.6"><g transform="translate(-92.478305,557.802420) scale(0.1,-0.1)" fill="#117ACA">
+    <path d="M3170 5569 c-400 -50 -703 -328 -770 -705 -21 -118 -9 -289 29 -404 91 -281 316 -493 606 -571 75 -21 111 -23 540 -29 513 -7 510 -7 621 -78 170 -110 228 -300 158 -516 -9 -28 -104 -205 -211 -393 -107 -189 -208 -376 -223 -415 -73 -187 -80 -402 -20 -580 94 -283 316 -494 595 -569 96 -25 287 -31 380 -10 290 63 531 276 627 551 67 193 64 416 -9 598 -39 99 -1504 2679 -1588 2797 -24 33 -74 90 -112 125 -116 109 -234 168 -387 195 -95 16 -135 17 -236 4z"/>
+    <path d="M1651 2990 c-336 -47 -622 -310 -707 -650 -26 -102 -26 -307 0 -403 42 -160 106 -276 214 -389 176 -184 409 -279 652 -265 385 23 689 277 782 654 29 121 29 304 -1 418 -98 367 -405 618 -782 639 -52 2 -123 1 -158 -4z"/>
+  </g></svg>
+  <div class="t">Azraq <span>Announcement Studio</span></div>
+  <div class="sub">EDIT · PREVIEW · DOWNLOAD GIF</div>
+</div>
+
+<div class="wrap">
+  <div class="side">
+    <div class="sec">
+      <h2>ANNOUNCEMENT</h2>
+      <label>Kicker (top label)</label>
+      <input type="text" id="kicker" value="LEADERSHIP ANNOUNCEMENT" />
+      <label>Headline line 1</label>
+      <input type="text" id="h1a" value="Institutional pedigree," />
+      <label>Headline line 2</label>
+      <input type="text" id="h1b" value="now pricing *data center risk.*" />
+      <div class="hint">Wrap words in *asterisks* to color them Azraq Blue.</div>
+      <label>Intro sentence</label>
+      <textarea id="intro">Azraq welcomes Jaap Bastiaansen, Head of Product Strategy & Operations, and Maxime de Mey, Chief Technology Officer: two leaders bringing capital markets discipline and infrastructure engineering to data center risk intelligence.</textarea>
+    </div>
+
+    <div class="sec">
+      <h2>PEOPLE</h2>
+      <div class="seg" id="countSeg">
+        <button data-n="1">One person</button>
+        <button data-n="2" class="on">Two people</button>
+      </div>
+    </div>
+
+    <div class="sec" id="pA">
+      <h2>PERSON A</h2>
+      <label>Name</label>
+      <input type="text" id="nameA" value="Jaap Bastiaansen" />
+      <label>Title</label>
+      <input type="text" id="titleA" value="HEAD OF PRODUCT STRATEGY & OPERATIONS" />
+      <label>Description</label>
+      <textarea id="descA">Leads product strategy and go-to-market for the Azraq platform, and the quantitative frameworks that link project risk to financial exposure and financing terms.</textarea>
+      <label>Credentials line</label>
+      <textarea id="pedA">Previously Goldman Sachs, Bloomberg and FactSet. 18 years in financial services.</textarea>
+      <label>Photo</label>
+      <label class="filebtn" for="photoA">Upload photo A</label>
+      <input type="file" id="photoA" accept="image/*" />
+      <div class="hint">A PNG with transparent background gets the 3D pop-out. Any other photo is framed inside the circle. Photos are converted to brand monochrome.</div>
+      <div class="row">
+        <div><label>Zoom</label><input type="range" id="scaleA" min="70" max="160" value="100" /></div>
+        <div><label>Vertical shift</label><input type="range" id="dyA" min="-40" max="40" value="0" /></div>
+      </div>
+    </div>
+
+    <div class="sec" id="pB">
+      <h2>PERSON B</h2>
+      <label>Name</label>
+      <input type="text" id="nameB" value="Maxime de Mey" />
+      <label>Title</label>
+      <input type="text" id="titleB" value="CHIEF TECHNOLOGY OFFICER" />
+      <label>Description</label>
+      <textarea id="descB">Owns technology strategy, platform architecture and engineering execution: the scalability, reliability and security of the platform as it grows.</textarea>
+      <label>Credentials line</label>
+      <textarea id="pedB">Engineering across solar generation and data center systems integration.</textarea>
+      <label>Photo</label>
+      <label class="filebtn" for="photoB">Upload photo B</label>
+      <input type="file" id="photoB" accept="image/*" />
+      <div class="row">
+        <div><label>Zoom</label><input type="range" id="scaleB" min="70" max="160" value="100" /></div>
+        <div><label>Vertical shift</label><input type="range" id="dyB" min="-40" max="40" value="0" /></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>FOOTER</h2>
+      <label>Tagline</label>
+      <input type="text" id="tagline" value="See the risk *before it happens.*" />
+      <label>Website</label>
+      <input type="text" id="site" value="azraq.ai" />
+    </div>
+
+    <div class="sec">
+      <h2>EXPORT</h2>
+      <div class="row">
+        <div>
+          <label>GIF size</label>
+          <div class="seg" id="sizeSeg">
+            <button data-w="540" class="on">540 px</button>
+            <button data-w="720">720 px</button>
+          </div>
+        </div>
+        <div>
+          <label>Smoothness</label>
+          <div class="seg" id="fpsSeg">
+            <button data-f="10">Light</button>
+            <button data-f="20" class="on">Smooth</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="prog" id="prog"><i id="progFill"></i></div>
+      <button class="btn primary" id="dlGif">Download GIF (5s loop)</button>
+      <button class="btn ghost" id="dlPng">Download still PNG (2x)</button>
+      <div class="status" id="status">Edit on the left. The preview animates live.</div>
+    </div>
+  </div>
+
+  <div class="stagewrap">
+    <canvas class="preview" id="preview" width="1080" height="1350"></canvas>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============ state ============ */
+const S = {
+  kicker: "LEADERSHIP ANNOUNCEMENT",
+  h1a: "Institutional pedigree,",
+  h1b: "now pricing *data center risk.*",
+  intro: "",
+  count: 2,
+  A: { name: "", title: "", desc: "", ped: "", img: null, hasAlpha: false, scale: 1, dy: 0 },
+  B: { name: "", title: "", desc: "", ped: "", img: null, hasAlpha: false, scale: 1, dy: 0 },
+  tagline: "See the risk *before it happens.*",
+  site: "azraq.ai",
+  exportW: 540, fps: 20,
+};
+const $ = id => document.getElementById(id);
+const AZ = "#117ACA", AZ2 = "#2E95E3", AZ3 = "#3FA0E8", INK = "#ffffff", MUT = "#A9BCD0", MUT2 = "#8FA6BC";
+
+function syncState() {
+  S.kicker = $('kicker').value; S.h1a = $('h1a').value; S.h1b = $('h1b').value; S.intro = $('intro').value;
+  S.A.name = $('nameA').value; S.A.title = $('titleA').value; S.A.desc = $('descA').value; S.A.ped = $('pedA').value;
+  S.B.name = $('nameB').value; S.B.title = $('titleB').value; S.B.desc = $('descB').value; S.B.ped = $('pedB').value;
+  S.A.scale = $('scaleA').value / 100; S.A.dy = +$('dyA').value;
+  S.B.scale = $('scaleB').value / 100; S.B.dy = +$('dyB').value;
+  S.tagline = $('tagline').value; S.site = $('site').value;
+}
+document.querySelectorAll('input[type=text], textarea, input[type=range]').forEach(el => el.addEventListener('input', syncState));
+
+function segWire(segId, attr, fn) {
+  $(segId).querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    $(segId).querySelectorAll('button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); fn(b.dataset[attr]);
+  }));
+}
+segWire('countSeg', 'n', n => { S.count = +n; $('pB').style.display = S.count === 2 ? '' : 'none'; });
+segWire('sizeSeg', 'w', w => S.exportW = +w);
+segWire('fpsSeg', 'f', f => S.fps = +f);
+
+function loadPhoto(fileInput, P) {
+  const f = fileInput.files && fileInput.files[0];
+  if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = Math.min(64, im.width); c.height = Math.min(64, im.height);
+      const x = c.getContext('2d');
+      x.drawImage(im, 0, 0, c.width, c.height);
+      const d = x.getImageData(0, 0, c.width, c.height).data;
+      let minA = 255;
+      for (let i = 3; i < d.length; i += 4) minA = Math.min(minA, d[i]);
+      P.img = im; P.hasAlpha = minA < 200;
+    };
+    im.src = rd.result;
+  };
+  rd.readAsDataURL(f);
+}
+$('photoA').addEventListener('change', () => loadPhoto($('photoA'), S.A));
+$('photoB').addEventListener('change', () => loadPhoto($('photoB'), S.B));
+
+/* ============ drawing helpers ============ */
+function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function wrapLines(ctx, text, maxW) {
+  const words = (text || "").split(/\s+/).filter(Boolean); const lines = []; let cur = "";
+  for (const w of words) {
+    const trial = cur ? cur + " " + w : w;
+    if (ctx.measureText(trial).width <= maxW || !cur) cur = trial;
+    else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+// draw centered text with *accent* segments
+function accentText(ctx, text, cx, y, fillMain, fillAcc) {
+  const parts = []; let rest = text || "", m;
+  while ((m = rest.match(/\*([^*]+)\*/))) {
+    if (m.index > 0) parts.push([rest.slice(0, m.index), false]);
+    parts.push([m[1], true]); rest = rest.slice(m.index + m[0].length);
+  }
+  if (rest) parts.push([rest, false]);
+  const total = parts.reduce((a, p) => a + ctx.measureText(p[0]).width, 0);
+  let x = cx - total / 2;
+  ctx.textAlign = "left";
+  for (const [txt, acc] of parts) { ctx.fillStyle = acc ? fillAcc : fillMain; ctx.fillText(txt, x, y); x += ctx.measureText(txt).width; }
+  ctx.textAlign = "center";
+}
+const markP1 = new Path2D("M3170 5569 c-400 -50 -703 -328 -770 -705 -21 -118 -9 -289 29 -404 91 -281 316 -493 606 -571 75 -21 111 -23 540 -29 513 -7 510 -7 621 -78 170 -110 228 -300 158 -516 -9 -28 -104 -205 -211 -393 -107 -189 -208 -376 -223 -415 -73 -187 -80 -402 -20 -580 94 -283 316 -494 595 -569 96 -25 287 -31 380 -10 290 63 531 276 627 551 67 193 64 416 -9 598 -39 99 -1504 2679 -1588 2797 -24 33 -74 90 -112 125 -116 109 -234 168 -387 195 -95 16 -135 17 -236 4z");
+const markP2 = new Path2D("M1651 2990 c-336 -47 -622 -310 -707 -650 -26 -102 -26 -307 0 -403 42 -160 106 -276 214 -389 176 -184 409 -279 652 -265 385 23 689 277 782 654 29 121 29 304 -1 418 -98 367 -405 618 -782 639 -52 2 -123 1 -158 -4z");
+function drawMark(ctx, x, y, w, color) {
+  const k = w / 462.5;
+  ctx.save(); ctx.translate(x, y); ctx.scale(k, k);
+  ctx.translate(-92.478305, 557.802420); ctx.scale(0.1, -0.1);
+  ctx.fillStyle = color; ctx.fill(markP1); ctx.fill(markP2); ctx.restore();
+}
+function prand(n) { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+/* ============ the poster ============ */
+function drawPoster(ctx, t) {
+  const W = 1080, H = 1350;
+  ctx.textBaseline = "alphabetic"; ctx.textAlign = "center"; ctx.setLineDash([]);
+  // background
+  ctx.fillStyle = "#001528"; ctx.fillRect(0, 0, W, H);
+  let g = ctx.createRadialGradient(540, 60, 60, 540, 60, 760);
+  g.addColorStop(0, "rgba(17,122,202,0.16)"); g.addColorStop(1, "rgba(17,122,202,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, 900);
+  g = ctx.createRadialGradient(540, 1180, 40, 540, 1180, 420);
+  g.addColorStop(0, "rgba(17,122,202,0.08)"); g.addColorStop(1, "rgba(17,122,202,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 760, W, 590);
+  // drifting grid (72px period, seamless per 5s)
+  const off = (t * 14.4) % 72;
+  ctx.strokeStyle = "rgba(122,160,196,0.05)"; ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let x = -72 + off; x < W + 72; x += 72) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+  for (let y = -72 + off; y < H + 72; y += 72) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+  ctx.stroke();
+  // floating particles (periodic)
+  const periods = [1.25, 5 / 3, 2.5];
+  for (let i = 0; i < 22; i++) {
+    const P = periods[i % 3], ph = prand(i * 17 + 9) * Math.PI * 2;
+    const x = prand(i * 3 + 1) * 1020 + 30 + (6 + prand(i * 5 + 4) * 9) * Math.sin(2 * Math.PI * t / P + ph);
+    const y = prand(i * 13 + 5) * 1290 + 30 + (9 + prand(i * 9 + 2) * 16) * Math.sin(2 * Math.PI * t / P + ph * 1.7);
+    ctx.globalAlpha = 0.10 + (0.20 + 0.20 * Math.sin(2 * Math.PI * t / P + ph * 2.3)) * prand(i * 11 + 3);
+    ctx.fillStyle = AZ2; ctx.beginPath(); ctx.arc(x, y, 1.6 + prand(i) * 2.2, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // header brand
+  drawMark(ctx, 64, 46, 34, AZ);
+  ctx.font = "700 28px 'Space Grotesk'"; ctx.fillStyle = INK; ctx.textAlign = "left";
+  ctx.fillText("Azraq", 111, 71); ctx.textAlign = "center";
+
+  // kicker
+  ctx.font = "700 15px 'Inter'";
+  const kW = ctx.measureText(S.kicker).width + S.kicker.length * 4.5;
+  ctx.save(); ctx.letterSpacing = "4.5px"; ctx.font = "700 15px 'Inter'"; ctx.fillStyle = AZ3;
+  ctx.fillText(S.kicker, 542, 160); ctx.restore();
+  ctx.strokeStyle = "rgba(17,122,202,0.9)"; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(540 - kW / 2 - 82, 155); ctx.lineTo(540 - kW / 2 - 18, 155);
+  ctx.moveTo(540 + kW / 2 + 18, 155); ctx.lineTo(540 + kW / 2 + 82, 155); ctx.stroke();
+
+  // headline
+  ctx.font = "700 58px 'Space Grotesk'";
+  accentText(ctx, S.h1a, 540, 238, INK, AZ);
+  accentText(ctx, S.h1b, 540, 303, INK, AZ);
+  // intro
+  ctx.font = "400 19px 'Inter'"; ctx.fillStyle = MUT;
+  const introLines = wrapLines(ctx, S.intro, 820);
+  introLines.slice(0, 4).forEach((ln, i) => ctx.fillText(ln, 540, 368 + i * 29.5));
+
+  // cards
+  const cards = S.count === 2 ? [{ x: 64, P: S.A, dir: -1, phase: 0 }, { x: 564, P: S.B, dir: 1, phase: 0.5 }]
+                              : [{ x: 314, P: S.A, dir: -1, phase: 0 }];
+  for (const c of cards) drawCard(ctx, t, c.x, 630, c.P, c.dir, c.phase);
+
+  // footer
+  g = ctx.createLinearGradient(64, 0, 1016, 0);
+  g.addColorStop(0, "rgba(17,122,202,0)"); g.addColorStop(0.5, "rgba(17,122,202,0.55)"); g.addColorStop(1, "rgba(17,122,202,0)");
+  ctx.fillStyle = g; ctx.fillRect(64, 1268, 952, 1);
+  ctx.font = "500 22px 'Space Grotesk'"; ctx.textAlign = "left";
+  const segs = []; let rest = S.tagline, m;
+  ctx.save(); ctx.textAlign = "left"; let tx = 64;
+  while ((m = rest.match(/\*([^*]+)\*/))) {
+    if (m.index > 0) segs.push([rest.slice(0, m.index), false]);
+    segs.push([m[1], true]); rest = rest.slice(m.index + m[0].length);
+  }
+  if (rest) segs.push([rest, false]);
+  for (const [txt, acc] of segs) { ctx.fillStyle = acc ? AZ : "#E8F0F8"; ctx.fillText(txt, tx, 1312); tx += ctx.measureText(txt).width; }
+  ctx.restore();
+  ctx.font = "600 16px 'Inter'"; ctx.textAlign = "right"; ctx.fillStyle = AZ2;
+  ctx.fillText(S.site, 1016, 1310); ctx.textAlign = "center";
+}
+
+function drawCard(ctx, t, x, y, P, dir, phase) {
+  const w = 452, h = 596, rr0 = 22;
+  // panel
+  const g = ctx.createLinearGradient(0, y, 0, y + h);
+  g.addColorStop(0, "#002147"); g.addColorStop(1, "#001E40");
+  rr(ctx, x, y, w, h, rr0); ctx.fillStyle = g; ctx.fill();
+  ctx.strokeStyle = "rgba(17,122,202,0.30)"; ctx.lineWidth = 1; ctx.stroke();
+  // corner accent
+  ctx.fillStyle = AZ; ctx.fillRect(x + 32, y - 1, 72, 3);
+  // border trace (one lap per 5s)
+  const L = 2 * (w + h) - 8 * rr0 + 2 * Math.PI * rr0;
+  rr(ctx, x + 1, y + 1, w - 2, h - 2, rr0 - 1);
+  ctx.save();
+  ctx.strokeStyle = "rgba(46,149,227,0.35)"; ctx.lineWidth = 6; ctx.filter = "blur(4px)";
+  ctx.setLineDash([L * 0.075, L * 0.425, L * 0.075, L * 0.425]);
+  ctx.lineDashOffset = dir * (t / 5 + phase) * L; ctx.stroke(); ctx.restore();
+  ctx.save();
+  ctx.strokeStyle = AZ2; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+  ctx.setLineDash([L * 0.075, L * 0.425, L * 0.075, L * 0.425]);
+  ctx.lineDashOffset = dir * (t / 5 + phase) * L; ctx.stroke(); ctx.restore();
+
+  // ---- portrait disc ----
+  const cx = x + w / 2, cy = y - 158 + 212.7, r = 158.3;
+  const rg = ctx.createRadialGradient(cx, cy, 10, cx, cy, r);
+  rg.addColorStop(0, "#0A3D6B"); rg.addColorStop(1, "#002147");
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fillStyle = rg; ctx.fill();
+
+  // photo (or placeholder initials)
+  if (P.img) {
+    ctx.save();
+    ctx.beginPath();
+    if (P.hasAlpha) { // pop-out: circle + column above center
+      ctx.arc(cx, cy, r, 0, 7);
+      ctx.rect(cx - r + 6, cy - r - 92, 2 * r - 12, r + 92);
+    } else ctx.arc(cx, cy, r, 0, 7);
+    ctx.clip();
+    const iw = P.img.width, ih = P.img.height;
+    let dw, dh;
+    if (P.hasAlpha) { dh = 2 * r * 1.125 * P.scale; dw = dh * iw / ih; }
+    else { const cover = Math.max(2 * r / iw, 2 * r / ih) * P.scale; dw = iw * cover; dh = ih * cover; }
+    const dx = cx - dw / 2;
+    const dy = P.hasAlpha ? (cy + r + 8 - dh + P.dy) : (cy - dh / 2 + P.dy);
+    ctx.filter = "grayscale(1) contrast(1.06) brightness(1.02)";
+    ctx.drawImage(P.img, dx, dy, dw, dh);
+    ctx.restore();
+  } else {
+    ctx.font = "700 92px 'Space Grotesk'"; ctx.fillStyle = "rgba(124,196,248,0.5)";
+    const initials = (P.name || "?").split(/\s+/).map(s => s[0] || "").join("").slice(0, 2).toUpperCase();
+    ctx.fillText(initials, cx, cy + 32);
+  }
+
+  // ring + rotating arcs + orbiting dot (whole turns per 5s)
+  const C = 2 * Math.PI * (r + 14);
+  ctx.strokeStyle = "rgba(63,160,232,0.6)"; ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 10]); ctx.lineDashOffset = (t / 5) * C;
+  ctx.beginPath(); ctx.arc(cx, cy, r + 14, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+  const a1 = (100 + t * 72) * Math.PI / 180;
+  ctx.strokeStyle = AZ2; ctx.lineWidth = 3; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.arc(cx, cy, r + 20, a1, a1 + 0.72); ctx.stroke();
+  const a2 = (250 - t * 144) * Math.PI / 180;
+  ctx.strokeStyle = "rgba(124,196,248,0.85)"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx, cy, r + 20, a2, a2 + 0.3); ctx.stroke();
+  const ad = (-120 - t * 72) * Math.PI / 180;
+  const dxp = cx + (r + 24) * Math.cos(ad), dyp = cy + (r + 24) * Math.sin(ad);
+  ctx.fillStyle = "rgba(124,196,248,0.28)"; ctx.beginPath(); ctx.arc(dxp, dyp, 9, 0, 7); ctx.fill();
+  ctx.fillStyle = "#7CC4F8"; ctx.beginPath(); ctx.arc(dxp, dyp, 4.2, 0, 7); ctx.fill();
+
+  // ---- text ----
+  ctx.fillStyle = INK; ctx.font = "600 29px 'Space Grotesk'";
+  ctx.fillText(P.name, cx, y + 290);
+  ctx.save(); ctx.letterSpacing = "1.8px"; ctx.font = "700 13px 'Inter'"; ctx.fillStyle = AZ3;
+  ctx.fillText(P.title, cx + 1, y + 328); ctx.restore();
+  ctx.fillStyle = "rgba(17,122,202,0.5)"; ctx.fillRect(cx - 40, y + 350, 80, 1);
+  ctx.font = "400 15px 'Inter'"; ctx.fillStyle = MUT;
+  const dl = wrapLines(ctx, P.desc, 384);
+  dl.slice(0, 5).forEach((ln, i) => ctx.fillText(ln, cx, y + 392 + i * 24));
+  ctx.font = "400 13.5px 'Inter'"; ctx.fillStyle = "#C6D6E6";
+  const pl = wrapLines(ctx, P.ped, 380);
+  pl.slice(0, 3).forEach((ln, i) => ctx.fillText(ln, cx, y + 516 + i * 21));
+}
+
+/* ============ live preview ============ */
+const pv = $('preview'), pctx = pv.getContext('2d');
+let fontsReady = false;
+Promise.all([
+  document.fonts.load("700 58px 'Space Grotesk'"), document.fonts.load("600 29px 'Space Grotesk'"),
+  document.fonts.load("500 22px 'Space Grotesk'"), document.fonts.load("400 19px 'Inter'"),
+  document.fonts.load("700 15px 'Inter'"), document.fonts.load("600 16px 'Inter'"),
+]).then(() => fontsReady = true);
+syncState();
+(function loop(ts) {
+  const t = (performance.now() / 1000) % 5;
+  if (fontsReady) drawPoster(pctx, t);
+  requestAnimationFrame(loop);
+})();
+
+/* ============ GIF encoder (GIF89a + LZW) ============ */
+function buildPalette(samples) {
+  const seed = ["#001528","#002147","#001E40","#0A3D6B","#117ACA","#2E95E3","#3FA0E8","#7CC4F8","#A9BCD0",
+    "#D6E3F0","#E8F0F8","#8FA6BC","#9FB3C8","#6E8DA8","#000000","#ffffff"].map(hx =>
+    [parseInt(hx.slice(1,3),16), parseInt(hx.slice(3,5),16), parseInt(hx.slice(5,7),16)]);
+  for (let i = 0; i < 24; i++) { const v = Math.round(i * 255 / 23); seed.push([v, v, v]); }
+  for (let i = 0; i < 12; i++) { // navy ramp for the disc gradient
+    const f = i / 11; seed.push([Math.round(10 + f * (0 - 10) + f * 0), Math.round(61 - f * 28), Math.round(107 - f * 36)]);
+  }
+  const hist = new Map();
+  for (const d of samples)
+    for (let i = 0; i < d.length; i += 4) {
+      const key = ((d[i] >> 3) << 10) | ((d[i+1] >> 3) << 5) | (d[i+2] >> 3);
+      hist.set(key, (hist.get(key) || 0) + 1);
+    }
+  const top = [...hist.entries()].sort((a, b) => b[1] - a[1]);
+  const pal = seed.slice();
+  for (const [key] of top) {
+    if (pal.length >= 256) break;
+    const r = ((key >> 10) << 3) + 4, g0 = (((key >> 5) & 31) << 3) + 4, b = ((key & 31) << 3) + 4;
+    if (!pal.some(p => Math.abs(p[0]-r) < 8 && Math.abs(p[1]-g0) < 8 && Math.abs(p[2]-b) < 8)) pal.push([r, g0, b]);
+  }
+  while (pal.length < 256) pal.push([0, 0, 0]);
+  const lut = new Uint8Array(32768);
+  for (let key = 0; key < 32768; key++) {
+    const r = ((key >> 10) << 3) + 4, g0 = (((key >> 5) & 31) << 3) + 4, b = ((key & 31) << 3) + 4;
+    let best = 0, bd = 1e9;
+    for (let p = 0; p < 256; p++) {
+      const dr = pal[p][0]-r, dg = pal[p][1]-g0, db = pal[p][2]-b, dist = dr*dr + dg*dg*2 + db*db;
+      if (dist < bd) { bd = dist; best = p; }
+    }
+    lut[key] = best;
+  }
+  return { pal, lut };
+}
+function lzwEncode(indices, minCode, out) {
+  const CLEAR = 1 << minCode, EOI = CLEAR + 1;
+  let codeSize = minCode + 1, next = EOI + 1, dict = new Map();
+  let cur = 0, curBits = 0; const bytes = [];
+  const emit = code => {
+    cur |= code << curBits; curBits += codeSize;
+    while (curBits >= 8) { bytes.push(cur & 255); cur >>= 8; curBits -= 8; }
+  };
+  emit(CLEAR);
+  let prefix = indices[0];
+  for (let i = 1; i < indices.length; i++) {
+    const k = indices[i], key = (prefix << 8) | k;
+    if (dict.has(key)) prefix = dict.get(key);
+    else {
+      emit(prefix);
+      dict.set(key, next);
+      if (next === (1 << codeSize)) codeSize++;
+      next++;
+      if (next === 4096) { emit(CLEAR); dict.clear(); next = EOI + 1; codeSize = minCode + 1; }
+      prefix = k;
+    }
+  }
+  emit(prefix); emit(EOI);
+  if (curBits > 0) bytes.push(cur & 255);
+  for (let i = 0; i < bytes.length; i += 255) {
+    const chunk = bytes.slice(i, i + 255);
+    out.push(chunk.length, ...chunk);
+  }
+  out.push(0);
+}
+async function makeGif(w, h, fps, onProgress) {
+  const frames = Math.round(5 * fps), delay = Math.round(100 / fps);
+  const oc = document.createElement('canvas'); oc.width = w; oc.height = h;
+  const octx = oc.getContext('2d', { willReadFrequently: true });
+  // sample frames for the palette
+  const sample = [];
+  for (const st of [0, 2.5]) {
+    octx.setTransform(w / 1080, 0, 0, w / 1080, 0, 0); drawPoster(octx, st);
+    sample.push(octx.getImageData(0, 0, w, h).data);
+  }
+  const { pal, lut } = buildPalette(sample);
+  const out = [];
+  const put = (...v) => out.push(...v);
+  const putStr = s => { for (const ch of s) out.push(ch.charCodeAt(0)); };
+  putStr("GIF89a");
+  put(w & 255, w >> 8, h & 255, h >> 8, 0xF7, 0, 0);
+  for (const p of pal) put(p[0], p[1], p[2]);
+  putStr("!"); put(0xFF, 11); putStr("NETSCAPE2.0"); put(3, 1, 0, 0, 0);
+  const idx = new Uint8Array(w * h);
+  for (let f = 0; f < frames; f++) {
+    const t = f / fps;
+    octx.setTransform(w / 1080, 0, 0, w / 1080, 0, 0); drawPoster(octx, t);
+    const d = octx.getImageData(0, 0, w, h).data;
+    for (let i = 0, p = 0; i < d.length; i += 4, p++)
+      idx[p] = lut[((d[i] >> 3) << 10) | ((d[i+1] >> 3) << 5) | (d[i+2] >> 3)];
+    put(0x21, 0xF9, 4, 0, delay & 255, delay >> 8, 0, 0);
+    put(0x2C, 0, 0, 0, 0, w & 255, w >> 8, h & 255, h >> 8, 0);
+    put(8); lzwEncode(idx, 8, out);
+    onProgress((f + 1) / frames);
+    await new Promise(r => setTimeout(r));
+  }
+  put(0x3B);
+  return new Blob([new Uint8Array(out)], { type: "image/gif" });
+}
+
+/* ============ export buttons ============ */
+$('dlGif').addEventListener('click', async () => {
+  syncState();
+  const btn = $('dlGif'); btn.disabled = true;
+  $('prog').style.display = 'block'; $('status').textContent = "Rendering frames and encoding GIF...";
+  try {
+    const w = S.exportW, h = Math.round(w * 1350 / 1080);
+    const blob = await makeGif(w, h, S.fps, p => { $('progFill').style.width = (p * 100).toFixed(0) + "%"; });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "Azraq_Announcement.gif"; a.click();
+    $('status').textContent = `Done. ${(blob.size / 1048576).toFixed(1)} MB, ${w}x${h}, 5s infinite loop.`;
+  } catch (e) { $('status').textContent = "GIF export failed: " + e.message; }
+  btn.disabled = false; $('prog').style.display = 'none'; $('progFill').style.width = "0%";
+});
+$('dlPng').addEventListener('click', () => {
+  syncState();
+  const oc = document.createElement('canvas'); oc.width = 2160; oc.height = 2700;
+  const octx = oc.getContext('2d'); octx.scale(2, 2); drawPoster(octx, 1.2);
+  oc.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = "Azraq_Announcement.png"; a.click();
+    $('status').textContent = "Still PNG downloaded (2160x2700).";
+  });
+});
+
+/* headless test hook */
+window.__testGif = async (w, fps) => {
+  syncState();
+  const blob = await makeGif(w, Math.round(w * 1350 / 1080), fps, () => {});
+  return new Promise(res => { const rd = new FileReader(); rd.onload = () => res(rd.result); rd.readAsDataURL(blob); });
+};
+</script>
+</body>
+</html>
