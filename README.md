@@ -13,4 +13,9 @@ A self-contained announcement builder for Azraq. Edit every sentence, upload pho
 2. Upload photos. A transparent PNG gets the 3D pop-out effect; any other photo is framed inside the circle. Ready-made cutouts are in `photo-cutouts/`.
 3. Pick GIF size and smoothness, then click **Download GIF (5s loop)** or **Download still PNG (2x)**.
 
+
+## If the GIF looks like a stack of still images
+
+The exported file is a normal animated GIF. **macOS Preview does not play GIF animation**; it lists the frames as pages in a sidebar. After exporting, the Studio now plays your GIF back right inside the app so you can confirm it. To watch the file itself, open it in a browser, Slack, WhatsApp, Notion or any chat app.
+
 Built with the Azraq brand system: navy #001528, Azraq Blue #117ACA, Space Grotesk and Inter.
