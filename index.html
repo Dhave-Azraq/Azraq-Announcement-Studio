@@ -86,45 +86,45 @@ canvas.preview { box-shadow: 0 24px 80px rgba(0,0,0,0.6); border-radius: 6px; ma
     <div class="sec">
       <h2>ANNOUNCEMENT</h2>
       <label>Kicker (top label)</label>
-      <input type="text" id="kicker" value="LEADERSHIP ANNOUNCEMENT" />
+      <input type="text" id="kicker" value="DATA CENTER &amp; CLOUD DELIVERY" />
       <label>Headline line 1</label>
-      <input type="text" id="h1a" value="Institutional pedigree," />
+      <input type="text" id="h1a" value="Every cloud has" />
       <label>Headline line 2</label>
-      <input type="text" id="h1b" value="now pricing *data center risk.*" />
+      <input type="text" id="h1b" value="a *delivery date.*" />
       <div class="hint">Wrap words in *asterisks* to color them Azraq Blue.</div>
       <label>Intro sentence</label>
-      <textarea id="intro">Azraq welcomes Jaap Bastiaansen, Head of Product Strategy & Operations, and Maxime de Mey, Chief Technology Officer: two leaders bringing capital markets discipline and infrastructure engineering to data center risk intelligence.</textarea>
+      <textarea id="intro">Daveson Juanico manages data center and cloud programmes across public, private and air-gapped environments. Cloud capacity, DC Asset Management and securing DC business cases buy-in approval that unlock investment, from scope to live operation.</textarea>
     </div>
 
     <div class="sec">
       <h2>PEOPLE</h2>
       <div class="seg" id="countSeg">
-        <button data-n="1">One person</button>
-        <button data-n="2" class="on">Two people</button>
+        <button data-n="1" class="on">One person</button>
+        <button data-n="2">Two people</button>
       </div>
     </div>
 
     <div class="sec" id="pA">
       <h2>PERSON A</h2>
       <label>Name</label>
-      <input type="text" id="nameA" value="Jaap Bastiaansen" />
+      <input type="text" id="nameA" value="Daveson Juanico" />
       <label>Title</label>
-      <input type="text" id="titleA" value="HEAD OF PRODUCT STRATEGY & OPERATIONS" />
+      <input type="text" id="titleA" value="SR. PROJECT MANAGER · DC &amp; CLOUD" />
       <label>Description</label>
-      <textarea id="descA">Leads product strategy and go-to-market for the Azraq platform, and the quantitative frameworks that link project risk to financial exposure and financing terms.</textarea>
+      <textarea id="descA">Cloud capacity and managed service delivery at G42 / Core42: $93.92M in approved business cases, 30,000+ servers under lifecycle management and $1B+ in DC assets tracked end to end.</textarea>
       <label>Credentials line</label>
-      <textarea id="pedA">Previously Goldman Sachs, Bloomberg and FactSet. 18 years in financial services.</textarea>
+      <textarea id="pedA">Azraq · G42 / Core42 · Khalifa University. PMP, CSM and ITIL certified.</textarea>
       <label>Photo</label>
       <label class="filebtn" for="photoA">Upload photo A</label>
       <input type="file" id="photoA" accept="image/*" />
       <div class="hint">A PNG with transparent background gets the 3D pop-out. Any other photo is framed inside the circle. Photos are converted to brand monochrome.</div>
       <div class="row">
-        <div><label>Zoom</label><input type="range" id="scaleA" min="70" max="160" value="100" /></div>
+        <div><label>Zoom</label><input type="range" id="scaleA" min="70" max="160" value="110" /></div>
         <div><label>Vertical shift</label><input type="range" id="dyA" min="-40" max="40" value="0" /></div>
       </div>
     </div>
 
-    <div class="sec" id="pB">
+    <div class="sec" id="pB" style="display:none">
       <h2>PERSON B</h2>
       <label>Name</label>
       <input type="text" id="nameB" value="Maxime de Mey" />
@@ -198,7 +198,7 @@ const S = {
   h1a: "Institutional pedigree,",
   h1b: "now pricing *data center risk.*",
   intro: "",
-  count: 2,
+  count: 1,
   A: { name: "", title: "", desc: "", ped: "", img: null, hasAlpha: false, scale: 1, dy: 0 },
   B: { name: "", title: "", desc: "", ped: "", img: null, hasAlpha: false, scale: 1, dy: 0 },
   tagline: "See the risk *before it happens.*",
@@ -372,17 +372,6 @@ function drawCard(ctx, t, x, y, P, dir, phase) {
   ctx.strokeStyle = "rgba(17,122,202,0.30)"; ctx.lineWidth = 1; ctx.stroke();
   // corner accent
   ctx.fillStyle = AZ; ctx.fillRect(x + 32, y - 1, 72, 3);
-  // border trace (one lap per 5s)
-  const L = 2 * (w + h) - 8 * rr0 + 2 * Math.PI * rr0;
-  rr(ctx, x + 1, y + 1, w - 2, h - 2, rr0 - 1);
-  ctx.save();
-  ctx.strokeStyle = "rgba(46,149,227,0.35)"; ctx.lineWidth = 6; ctx.filter = "blur(4px)";
-  ctx.setLineDash([L * 0.075, L * 0.425, L * 0.075, L * 0.425]);
-  ctx.lineDashOffset = dir * (t / 5 + phase) * L; ctx.stroke(); ctx.restore();
-  ctx.save();
-  ctx.strokeStyle = AZ2; ctx.lineWidth = 2.5; ctx.lineCap = "round";
-  ctx.setLineDash([L * 0.075, L * 0.425, L * 0.075, L * 0.425]);
-  ctx.lineDashOffset = dir * (t / 5 + phase) * L; ctx.stroke(); ctx.restore();
 
   // ---- portrait disc ----
   const cx = x + w / 2, cy = y - 158 + 212.7, r = 158.3;
@@ -414,21 +403,10 @@ function drawCard(ctx, t, x, y, P, dir, phase) {
     ctx.fillText(initials, cx, cy + 32);
   }
 
-  // ring + rotating arcs + orbiting dot (whole turns per 5s)
-  const C = 2 * Math.PI * (r + 14);
+  // static frame ring (no moving parts)
   ctx.strokeStyle = "rgba(63,160,232,0.6)"; ctx.lineWidth = 1.5;
-  ctx.setLineDash([4, 10]); ctx.lineDashOffset = (t / 5) * C;
+  ctx.setLineDash([4, 10]);
   ctx.beginPath(); ctx.arc(cx, cy, r + 14, 0, 7); ctx.stroke(); ctx.setLineDash([]);
-  const a1 = (100 + t * 72) * Math.PI / 180;
-  ctx.strokeStyle = AZ2; ctx.lineWidth = 3; ctx.lineCap = "round";
-  ctx.beginPath(); ctx.arc(cx, cy, r + 20, a1, a1 + 0.72); ctx.stroke();
-  const a2 = (250 - t * 144) * Math.PI / 180;
-  ctx.strokeStyle = "rgba(124,196,248,0.85)"; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.arc(cx, cy, r + 20, a2, a2 + 0.3); ctx.stroke();
-  const ad = (-120 - t * 72) * Math.PI / 180;
-  const dxp = cx + (r + 24) * Math.cos(ad), dyp = cy + (r + 24) * Math.sin(ad);
-  ctx.fillStyle = "rgba(124,196,248,0.28)"; ctx.beginPath(); ctx.arc(dxp, dyp, 9, 0, 7); ctx.fill();
-  ctx.fillStyle = "#7CC4F8"; ctx.beginPath(); ctx.arc(dxp, dyp, 4.2, 0, 7); ctx.fill();
 
   // ---- text ----
   ctx.fillStyle = INK; ctx.font = "600 29px 'Space Grotesk'";
@@ -453,6 +431,17 @@ Promise.all([
   document.fonts.load("700 15px 'Inter'"), document.fonts.load("600 16px 'Inter'"),
 ]).then(() => fontsReady = true);
 syncState();
+(async () => {
+  try {
+    const r = await fetch('photo-cutouts/Daveson_cutout.png');
+    if (r.ok) {
+      const b = await r.blob();
+      const im = new Image();
+      im.onload = () => { if (!S.A.img) { S.A.img = im; S.A.hasAlpha = true; } };
+      im.src = URL.createObjectURL(b);
+    }
+  } catch (e) { /* offline/file use: initials placeholder */ }
+})();
 (function loop(ts) {
   const t = (performance.now() / 1000) % 5;
   if (fontsReady) drawPoster(pctx, t);
