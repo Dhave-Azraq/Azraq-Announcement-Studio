@@ -299,23 +299,16 @@ function drawPoster(ctx, t) {
   g = ctx.createRadialGradient(540, 1180, 40, 540, 1180, 420);
   g.addColorStop(0, "rgba(17,122,202,0.08)"); g.addColorStop(1, "rgba(17,122,202,0)");
   ctx.fillStyle = g; ctx.fillRect(0, 760, W, 590);
-  // drifting grid (72px period, seamless per 5s)
-  const off = (t * 14.4) % 72;
+  // static grid
   ctx.strokeStyle = "rgba(122,160,196,0.05)"; ctx.lineWidth = 1;
   ctx.beginPath();
-  for (let x = -72 + off; x < W + 72; x += 72) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
-  for (let y = -72 + off; y < H + 72; y += 72) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+  for (let x = 36; x < W; x += 72) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+  for (let y = 36; y < H; y += 72) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
   ctx.stroke();
-  // floating particles (periodic)
-  const periods = [1.25, 5 / 3, 2.5];
-  for (let i = 0; i < 22; i++) {
-    const P = periods[i % 3], ph = prand(i * 17 + 9) * Math.PI * 2;
-    const x = prand(i * 3 + 1) * 1020 + 30 + (6 + prand(i * 5 + 4) * 9) * Math.sin(2 * Math.PI * t / P + ph);
-    const y = prand(i * 13 + 5) * 1290 + 30 + (9 + prand(i * 9 + 2) * 16) * Math.sin(2 * Math.PI * t / P + ph * 1.7);
-    ctx.globalAlpha = 0.10 + (0.20 + 0.20 * Math.sin(2 * Math.PI * t / P + ph * 2.3)) * prand(i * 11 + 3);
-    ctx.fillStyle = AZ2; ctx.beginPath(); ctx.arc(x, y, 1.6 + prand(i) * 2.2, 0, 7); ctx.fill();
-  }
-  ctx.globalAlpha = 1;
+  // soft vignette for depth (static)
+  const vg = ctx.createRadialGradient(540, 640, 420, 540, 675, 1050);
+  vg.addColorStop(0, "rgba(0,5,12,0)"); vg.addColorStop(1, "rgba(0,5,12,0.38)");
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
 
   // header brand
   drawMark(ctx, 64, 46, 34, AZ);
